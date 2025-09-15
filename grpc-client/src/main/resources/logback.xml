@@ -7,7 +7,7 @@
     </appender>
 
     　　　 <!-- 正确的方式：使用 logger 标签来设置包的日志级别 -->
-    <logger name="com.jim.interceptor" level="DEBUG" additivity="false">
+    <logger name="com.jim" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 

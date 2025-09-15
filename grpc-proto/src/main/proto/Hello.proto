@@ -13,5 +13,15 @@ message HelloResponse {
 }
 
 service HelloService {
+  // 一元调用
   rpc sayHello(HelloRequest) returns (HelloResponse);
+
+//  双向流式调用
+  rpc sayHello2(stream HelloRequest) returns (stream HelloResponse);
+
+//  客户端流式调用
+  rpc sayHello3(stream HelloRequest) returns (HelloResponse);
+
+  // 服务端流式返回
+  rpc sayHello4(HelloRequest) returns (stream HelloResponse);
 }
