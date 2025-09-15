@@ -1,6 +1,7 @@
 package com.jim;
 
 
+import com.jim.interceptor.clientStreamInvoke.CustomClientStreamInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -18,9 +19,11 @@ public class GrpcClient3 {
     public static void main(String[] args) throws InterruptedException {
         ManagedChannel localhost = ManagedChannelBuilder.forAddress("localhost", 9090)
                 .usePlaintext()
+                .intercept(new CustomClientStreamInterceptor())
                 .build();
 
         HelloServiceGrpc.HelloServiceStub helloServiceStub = HelloServiceGrpc.newStub(localhost);
+        // 服务端多个响应数据时，创建响应请求泛型的的匿名内部类
         StreamObserver<HelloRequest> helloRequestStreamObserver = helloServiceStub.sayHello3(new StreamObserver<HelloResponse>() {
             @Override
             public void onNext(HelloResponse helloResponse) {
@@ -38,6 +41,7 @@ public class GrpcClient3 {
             }
         });
 
+        // 上面创建响应匿名内部类，这里给服务端传输数据
         for (int i = 0; i < 3; i++) {
             HelloRequest.Builder builder = HelloRequest.newBuilder();
             HelloRequest request = builder.setName("jim" + i).build();
@@ -47,6 +51,8 @@ public class GrpcClient3 {
 
         helloRequestStreamObserver.onCompleted();
 
+        // 客户端处保持建立的连接时间设置
+        // 必须设置，不然直接结束了
         localhost.awaitTermination(4, TimeUnit.SECONDS);
     }
 }
