@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class GrpcClient3 {
     public static void main(String[] args) throws InterruptedException {
+        // todo 学习客户端流式调用，为什么使用工厂模式生成追踪器，原理是什么?
         ManagedChannel localhost = ManagedChannelBuilder.forAddress("localhost", 9090)
                 .usePlaintext()
                 .intercept(new CustomClientStreamInterceptor())

@@ -17,6 +17,11 @@
             <artifactId>grpc-proto</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.orbitz.consul</groupId>
+            <artifactId>consul-client</artifactId>
+            <version>1.5.2</version>
+        </dependency>
     </dependencies>
 
     <properties>
